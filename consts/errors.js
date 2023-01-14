@@ -1,7 +1,7 @@
 const errors = {
-    TOUR_NOT_FOUND: {
-      code: 'TOUR_NOT_FOUND',
-      message: 'Tour with the specified id was not found.',
+    BIKE_NOT_FOUND: {
+      code: 'BIKE_NOT_FOUND',
+      message: 'Bike with the specified id or name was not found.',
     },
     NOT_FOUND: {
       code: 'NOT_FOUND',
@@ -9,7 +9,7 @@ const errors = {
     },
     ALREADY_EXIST: {
       code: 'ALREADY_EXIST',
-      message: 'The tour with this name already exist.',
+      message: 'The bike with this name already exist.',
     },
   };
   
