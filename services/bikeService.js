@@ -15,20 +15,12 @@ const bikeService = {
     return newBike
   },
 
-  getBikes: async () => {
-    const bikes = await Bike.find().lean().exec()
+  getBikes: async (match, sort, skip, limit) => {
+    const count = await Bike.countDocuments(match)
 
-    return bikes
-  },
+    const bikes = await Bike.find(match).sort(sort).skip(skip).limit(limit).lean().exec()
 
-  getBikesByType: async (type) => {
-    const bikes = await Bike.find({ type }).exec()
-
-    if (!bikes) {
-      return null
-    }
-
-    return bikes
+    return { count, items: bikes }
   },
 
   getBikeById: async (id) => {
