@@ -11,6 +11,12 @@ const errors = {
       code: 'ALREADY_EXIST',
       message: 'The bike with this name already exist.',
     },
+    FIELD_MUST_BE_ABOVE: (field, quantity) =>
+    `${field[0].toUpperCase() + field.slice(1)} must be above ${quantity}.`,
+  FIELD_MUST_BE_BELOW: (field, quantity) =>
+    `${field[0].toUpperCase() + field.slice(1)} must be below ${quantity}.`,
+  SPECIFY_FIELD: (field) => 
+  `Please, specify the ${field}.`
   };
   
   module.exports = errors;
