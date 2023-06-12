@@ -11,6 +11,14 @@ const errors = {
       code: 'ALREADY_EXIST',
       message: 'The bike with this name already exist.',
     },
+    ORDER_NOT_FOUND: {
+      code: 'ORDER_NOT_FOUND',
+      message: 'Order with the specified id was not found.',
+    },
+    NOT_VALID: (field) => ({
+      code: 'NOT_VALID',
+      message: `The specified ${field} is not valid.`
+    }),
     FIELD_MUST_BE_ABOVE: (field, quantity) =>
     `${field[0].toUpperCase() + field.slice(1)} must be above ${quantity}.`,
   FIELD_MUST_BE_BELOW: (field, quantity) =>

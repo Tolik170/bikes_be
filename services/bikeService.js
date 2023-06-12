@@ -39,6 +39,8 @@ const bikeService = {
     if (!bike) {
       throw createError(404, BIKE_NOT_FOUND)
     }
+
+    return bike
   },
 
   deleteBike: async (id) => {
