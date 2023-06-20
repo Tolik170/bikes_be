@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongoose').Types
 const Order = require('../models/orderModel')
+const Bike = require('../models/bikeModel')
 const { createError } = require('../utils/errorHellpers')
 const { createFondyInstance } = require('../utils/payment')
 const { CLIENT_URL, SERVER_URL } = require('../configs/config')
@@ -28,9 +29,9 @@ const paymentService = {
       currency: USD,
       lang: EN
     }
-  
+
     const response = await fondy.Checkout(fondyData)
-  
+
     const updateData = {
       payment: {
         id: response.payment_id,
@@ -38,28 +39,34 @@ const paymentService = {
       }
     }
     const order = await Order.findByIdAndUpdate(orderId, updateData, { new: true }).lean().exec()
-  
+
     if (!order) {
       throw createError(404, ORDER_NOT_FOUND)
     }
-  
+
     return response
   },
 
   updatePaymentStatus: async (orderId) => {
     const status = await fondy.Status({ order_id: orderId })
-  
+
     const updateData = {
       payment: { method: 'fondy', status: status.order_status === APPROVED ? PAID : PROCESSING },
       isPaid: status.order_status === APPROVED,
       paidAt: status.order_status === APPROVED ? Date.now() : null
     }
-  
+
     const order = await Order.findByIdAndUpdate(orderId, updateData, { new: true }).lean().exec()
-  
+
     if (!order) {
       throw createError(404, ORDER_NOT_FOUND)
     }
+
+    const updatePurchasedCount = { $inc: { purchasedCount: 1 } }
+
+    order.orderItems.forEach(async (id) => {
+      await Bike.findByIdAndUpdate(id, updatePurchasedCount, { new: true }).lean().exec()
+    })
   }
 }
 
